@@ -30,15 +30,31 @@ class MarkovMachine {
         }
       }
     }
-    console.log(obj);
+    this.chain = obj;
   }
 
-
+  static choice(ar) {
+    return ar[Math.floor(Math.random() * ar.length)];
+  }
   // /** return random text from chains */
 
-  // makeText(numWords = 100) {
-  //   // TODO
-  // }
+  makeText(numWords = 100) {
+    // TODO
+    //Ok, this isn't too tough actually.
+    let txt = [];
+    // Just start with a key. Grab one from our object.
+    let keys = Object.keys(this.chain);
+
+    //Then push in a word from it's value array.
+    txt.push(MarkovMachine.choice(keys));
+
+    //Then use that VALUE WORD as a key and push in a new VALUE WORD from that key's array.
+    while(txt.length < numWords && txt[txt.length - 1] !== undefined) {
+      txt.push(MarkovMachine.choice(this.chain[txt[txt.length-1]]))
+    }
+    return txt.join(' ');
+
+  }
 }
 
 module.exports = {MarkovMachine}; //make sure to always wrap this in {{{{{brackets}}}}}
